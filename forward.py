@@ -60,5 +60,37 @@ def forward_L(point_to:list, rotation_angle:int, rotations=False, arm_size=20, f
         return None
 
 
-if __name__ == "__main__":
-    pass
+def calculate_motor_angles(a1:int, a2:int, rotations=False, ry=0):
+    a2T = ( a2 - ( a1-90 ) )
+    a3T = 90 - a2
+
+    if rotations == True:
+        a3T = 180 - ( 90 + a2 + ry) 
+
+    return a1, a2T, a3T
+
+
+def new_points_for_ry(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
+    x = point_to[0]
+    y = point_to[1]
+    z = point_to[2]
+
+    x -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.cos(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
+    y -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.sin(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
+    z += ( final_arm_size * math.sin(ry * (math.pi/180))) - 2.5
+
+    a1, a2, a3 = forward_L(point_to=[x, y, z], rotation_angle=rotation_angle, rotations=True)
+    
+    return a1, a2, a3
+
+
+
+
+
+if __name__ == '__main__':
+    a1, a2, a3 = new_points_for_ry([20,10,15], ry=-30, rotation_angle=26.56)
+
+    print('a1 =', a1)
+    print('a2 =', a2)
+    print('a3 =', a3)
+
