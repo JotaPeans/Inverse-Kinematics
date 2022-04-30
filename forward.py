@@ -62,4 +62,3 @@ def forward_L(point_to:list, rotation_angle:int, rotations=False, arm_size=20, f
 
 if __name__ == "__main__":
     pass
-
