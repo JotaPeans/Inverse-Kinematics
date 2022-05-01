@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 
 def forward_L(point_to:list, rotation_angle:int, rotations=False, arm_size=20, final_arm_size=10):
@@ -75,8 +76,19 @@ def ry_rotation(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
     y = point_to[1]
     z = point_to[2]
 
-    x -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.cos(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
-    y -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.sin(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
+    R = 10
+    #radius
+    n = 360
+    #n of edges
+    t = np.linspace(0, 2 * np.pi, n)
+    x_coordnates = R * np.cos(t)
+    y_coordnates = R * np.sin(t)
+
+    #x -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.cos(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
+    #y -= ( final_arm_size * math.cos(ry * (math.pi/180)) * math.sin(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
+
+    x -= x_coordnates[abs(ry)] * math.cos( rotation_angle * (math.pi/180) ) + (4.33 * math.cos( rotation_angle * (math.pi/180) ))
+    y -= x_coordnates[abs(ry)] * math.sin( rotation_angle * (math.pi/180) ) + (4.33 * math.cos( rotation_angle * (math.pi/180) ))
     z += ( final_arm_size * math.sin(ry * (math.pi/180))) - 2.5
 
     a1, a2, a3 = forward_L(point_to=[x, y, z], rotation_angle=rotation_angle, rotations=True)
