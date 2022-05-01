@@ -2,23 +2,31 @@ import math
 import forward
 
 
-class Arm():
-    def __init__(self, r=90, a1=90, a2=0, a3=-45, default_first_point=[0, 21.4, 5.43], default_rotations=[0, 0, 0]) -> None:
+class Arm():                                                        #  x    y    z    rx ry rz
+    def __init__(self, r=90, a1=90, a2=0, a3=-45, default_first_point=[0, 21.4, 5.43, 0, 0, 0]) -> None:
+        '''## default_first_point -> [ x, y, z, rx, ry, rz ]'''
         self.r = r  # rotaciona o arm para 90 graus _|_
+
         self.a1 = a1  # angulo patradao da posição de inicio
         self.a2 = a2  # angulo patradao da posição de inicio
         self.a3 = a3  # angulo patradao da posição de inicio
-        self.point_to = default_first_point  # posição padrao de inicio
+        
+        self.point_to = default_first_point[0:4]  # posição padrao de inicio
+
+        self.rx = default_first_point[3]
+        self.ry = default_first_point[4]
+        self.rz = default_first_point[5]
+        
         self.calculate()
 
 
     def calculate(self):
         try:
             #calcula a rotação e o comprimento total para a coordenada desejada!
-            self.Length = math.sqrt((self.point_to[0]**2) + (self.point_to[1]**2))
+            self.Length = math.sqrt( ( self.point_to[0]**2 ) + ( self.point_to[1]**2 ) )
             self.r = math.atan2(self.point_to[1], self.point_to[0]) * (180/math.pi) #radians to degrees
 
-            self.a1, self.a2, self.a3 = forward.forward_L(self.point_to, self.r)
+            self.a1, self.a2, self.a3 = forward.ry_rotation(self.point_to, ry = self.ry, rotation_angle = self.r)
 
             #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(self.a1, self.a2)
 
