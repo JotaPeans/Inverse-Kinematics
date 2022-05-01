@@ -13,9 +13,9 @@ class Arm():                                                        #  x    y   
         
         self.point_to = default_first_point[0:4]  # posição padrao de inicio
 
-        self.rx = default_first_point[3]
-        self.ry = default_first_point[4]
-        self.rz = default_first_point[5]
+        self.rx = default_first_point[3] # angulo de rotação patradao da posição de inicio
+        self.ry = default_first_point[4] # angulo de rotação patradao da posição de inicio
+        self.rz = default_first_point[5] # angulo de rotação patradao da posição de inicio
         
         self.calculate()
 
@@ -28,7 +28,7 @@ class Arm():                                                        #  x    y   
 
             #self.a1, self.a2, self.a3 = forward.forward_L(self.point_to, self.r)
 
-            self.a1, self.a2, self.a3 = forward.ry_rotation(self.point_to, ry = self.ry, rotation_angle = self.r)
+            self.a1, self.a2, self.a3 = forward.rotations(self.point_to, ry = self.ry, rotation_angle = self.r)
 
             #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(self.a1, self.a2)
 

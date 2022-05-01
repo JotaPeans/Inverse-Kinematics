@@ -70,7 +70,7 @@ def calculate_motor_angles(a1:int, a2:int, rotations=False, ry=0):
     return a1, a2T, a3T
 
 
-def ry_rotation(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
+def rotations(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
     x = point_to[0]
     y = point_to[1]
     z = point_to[2]
@@ -100,7 +100,7 @@ def ry_rotation(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
 
 
 if __name__ == '__main__':
-    a1, a2, a3 = ry_rotation([20,10,15], ry=-30, rotation_angle=26.56)
+    a1, a2, a3 = rotations([20,10,15], ry=-30, rotation_angle=26.56)
 
     print('a1 =', a1)
     print('a2 =', a2)
