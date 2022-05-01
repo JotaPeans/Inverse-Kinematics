@@ -26,6 +26,8 @@ class Arm():                                                        #  x    y   
             self.Length = math.sqrt( ( self.point_to[0]**2 ) + ( self.point_to[1]**2 ) )
             self.r = math.atan2(self.point_to[1], self.point_to[0]) * (180/math.pi) #radians to degrees
 
+            #self.a1, self.a2, self.a3 = forward.forward_L(self.point_to, self.r)
+
             self.a1, self.a2, self.a3 = forward.ry_rotation(self.point_to, ry = self.ry, rotation_angle = self.r)
 
             #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(self.a1, self.a2)
