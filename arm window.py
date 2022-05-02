@@ -1,4 +1,3 @@
-from ast import For
 from tkinter import *
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

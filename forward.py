@@ -71,11 +71,11 @@ def forward_L(point_to:list, arm_size=20, final_arm_size=10):
         return None
 
 
-def calculate_motor_angles(a1:int, a2:int, rotations=False, ry=0):
+def calculate_motor_angles(a1:int, a2:int, ry=0):
     a2T = ( a2 - ( a1-90 ) )
     a3T = 90 - a2
 
-    if rotations == True:
+    if ry > 0:
         a3T = 180 - ( 90 + a2 + ry) 
 
     return a1, a2T, a3T
@@ -102,9 +102,12 @@ def rotations(point_to:list, ry:int, rx:int, rz:int, rotation_angle:int, final_a
     #atribui a rotação do eixo z a rotação (rz)
         #fazer
 
+    #faz o calculo de rotação
+    r = math.atan2(x, y) * (180/math.pi)
+
     a1, a2, a3 = forward_L(point_to=[x, y, z])
     
-    return a1, a2, a3
+    return r, a1, a2, a3
 
 
 
