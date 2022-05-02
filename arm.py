@@ -2,45 +2,44 @@ import math
 import forward
 
 
-class Arm():                                                        #  x    y    z    rx ry rz
-    def __init__(self, r=90, a1=90, a2=0, a3=-45, default_first_point=[0, 21.4, 5.43, 0, 0, 0]) -> None:
+class Arm():
+    def __init__(self, point_to=[0, 21.4, 5.43, 0, 0, 0], rotation_angle=90, a1=90, a2=0, a3=-45) -> None:
         '''## default_first_point -> [ x, y, z, rx, ry, rz ]'''
-        self.r = r  # rotaciona o arm para 90 graus _|_
 
-        self.a1 = a1  # angulo patradao da posição de inicio
-        self.a2 = a2  # angulo patradao da posição de inicio
-        self.a3 = a3  # angulo patradao da posição de inicio
-        
-        self.point_to = default_first_point[0:4]  # posição padrao de inicio
+        if len(point_to) <= 3:
+            for x in range(3):
+                point_to.append(0)
 
-        self.rx = default_first_point[3] # angulo de rotação patradao da posição de inicio
-        self.ry = default_first_point[4] # angulo de rotação patradao da posição de inicio
-        self.rz = default_first_point[5] # angulo de rotação patradao da posição de inicio
+        self.r = rotation_angle
+
+        self.a1 = a1
+        self.a2 = a2
+        self.a3 = a3
         
+        self.point_to = point_to[0:3]
+
+        self.rx = point_to[3]
+        self.ry = point_to[4]
+        self.rz = point_to[5]
+
         self.calculate()
 
-
     def calculate(self):
-        try:
-            #calcula a rotação e o comprimento total para a coordenada desejada!
-            self.Length = math.sqrt( ( self.point_to[0]**2 ) + ( self.point_to[1]**2 ) )
-            self.r = math.atan2(self.point_to[1], self.point_to[0]) * (180/math.pi) #radians to degrees
+        #try:
+        self.Length = math.sqrt((self.point_to[0]**2) + (self.point_to[1]**2))
+        self.r = math.atan2(self.point_to[1], self.point_to[0]) * (180/math.pi)
 
-            #self.a1, self.a2, self.a3 = forward.forward_L(self.point_to, self.r)
+        self.a1, self.a2, self.a3 = forward.rotations(point_to = self.point_to, ry = self.ry, rx = self.rx, rz = self.rz, rotation_angle = self.r)
 
-            self.a1, self.a2, self.a3 = forward.rotations(self.point_to, ry = self.ry, rotation_angle = self.r)
+        #print(f'L = {self.Length}')
+        #print(f'rotation = {self.r}')
+        print(f'a1 = {self.a1}')
+        print(f'a2 = {self.a2}')
+        print(f'a3 = {self.a3}')
+        print()
 
-            #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(self.a1, self.a2)
-
-            print(f'rotation = {self.r}')
-            print(f'a1 = {self.a1}')
-            print(f'a2 = {self.a2}')
-            print(f'a3 = {self.a3}')
-            print()
-
-        except:
-            print('\nInsira no formato: X Y Z -> ex: -20 25 10\n')
-            self.calculate()
+        #except:
+            #print('erro')
 
 
-Arm(default_first_point=[20,10,15])
+Arm(point_to=[20, 10, 15])

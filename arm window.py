@@ -1,3 +1,4 @@
+from ast import For
 from tkinter import *
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -8,13 +9,20 @@ import forward
 janela = Tk()
 
 
-class MainWindowArm():
-    def __init__(self, root, r=90, a1=90, a2=0, a3=-45, default_first_point=[0, 21.4, 5.43]) -> None:
+class Arm():                                                              #  x    y    z    rx ry rz
+    def __init__(self, root, r=90, a1=90, a2=0, a3=-45, default_first_point=[0, 21.4, 5.43, 0, 0, 0]) -> None:
         self.r = r  # rotaciona o arm para 90 graus _|_
+
         self.a1 = a1  # angulo patradao da posição de inicio
         self.a2 = a2  # angulo patradao da posição de inicio
         self.a3 = a3  # angulo patradao da posição de inicio
-        self.point_to = default_first_point # posição padrao de inicio
+        
+        self.point_to = default_first_point[0:3]  # posição padrao de inicio
+
+        self.rx = default_first_point[3] # angulo de rotação patradao da posição de inicio
+        self.ry = default_first_point[4] # angulo de rotação patradao da posição de inicio
+        self.rz = default_first_point[5] # angulo de rotação patradao da posição de inicio
+
 
         self.root = root
         self.root.title('Robotic arm')
@@ -55,11 +63,10 @@ class MainWindowArm():
 
     def calculate(self):
         try:
-
             self.Length = math.sqrt((self.point_to[0]**2) + (self.point_to[1]**2))
             self.r = math.atan2(self.point_to[1], self.point_to[0]) * (180/math.pi)
 
-            self.a1, self.a2, self.a3 = forward.forward_L(self.point_to, self.r)
+            self.a1, self.a2, self.a3 = forward.rotations(point_to = self.point_to, ry = self.ry, rx = self.rx, rz = self.rz, rotation_angle = self.r)
 
             #print(f'L = {self.Length}')
             #print(f'rotation = {self.r}')
@@ -104,4 +111,4 @@ class MainWindowArm():
         canvas.get_tk_widget().grid(row=12, column=5)
 
 
-MainWindowArm(root=janela)
+Arm(root=janela)

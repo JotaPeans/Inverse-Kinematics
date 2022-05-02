@@ -2,7 +2,17 @@ import math
 import numpy as np
 
 
-def forward_L(point_to:list, rotation_angle:int, arm_size=20, final_arm_size=10):
+#calculo dos pontos que forma um circulo com o raio de tamanho = final_arm_size
+R = 10 # final_arm_size -> raio do circulo
+n = 360 # numero de arestas que formam o circulo
+
+#calculo dos pontos
+t = np.linspace(0, 2 * np.pi, n)
+x_coordnates = R * np.cos(t) # coordenadas dos pontos do eixo x do circulo
+y_coordnates = R * np.sin(t) # coordenadas dos pontos do eixo y do circulo
+
+
+def forward_L(point_to:list, arm_size=20, final_arm_size=10):
     '''returns the angles of rotations\n
     arm_size in centimeters'''
 
@@ -45,13 +55,14 @@ def forward_L(point_to:list, rotation_angle:int, arm_size=20, final_arm_size=10)
 
         a1 = math.ceil(phi + theta)
         a2 = math.ceil(phi - theta)
+        a3 = 0
 
-        if a2 > 0:
-            a3 = a2 - a2
-        elif a2 < 0:
-            a3 = -(a2) + a2
-        elif a2 == 0:
-            a3 = 0
+        #if a2 > 0:
+        #    a3 = a2 - a2
+        #elif a2 < 0:
+        #    a3 = -(a2) + a2
+        #elif a2 == 0:
+        #    a3 = 0
             
         return a1, a2, a3
 
@@ -70,28 +81,28 @@ def calculate_motor_angles(a1:int, a2:int, rotations=False, ry=0):
     return a1, a2T, a3T
 
 
-def rotations(point_to:list, ry:int, rotation_angle:int, final_arm_size=10):
+def rotations(point_to:list, ry:int, rx:int, rz:int, rotation_angle:int, final_arm_size=10):
     x = point_to[0]
     y = point_to[1]
     z = point_to[2]
-
-    R = 10
-    #radius
-    n = 360
-    #n of edges
-    t = np.linspace(0, 2 * np.pi, n)
-    x_coordnates = R * np.cos(t)
-    y_coordnates = R * np.sin(t)
-
+    
     #      ( final_arm_size * math.cos(ry * (math.pi/180) ) -> x_coordnates[abs(ry)]
     # x -= ( final_arm_size * math.cos(ry * (math.pi/180) ) * math.cos(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
     # y -= ( final_arm_size * math.cos(ry * (math.pi/180) ) * math.sin(rotation_angle * (math.pi/180))) + (4.33 * math.sin(rotation_angle * (math.pi/180)))
 
+    #faz o calculo das coordenadas da segunda rotação (ry)
     x -= x_coordnates[abs(ry)] * math.cos( rotation_angle * (math.pi/180) ) + (4.33 * math.cos( rotation_angle * (math.pi/180) ))
     y -= x_coordnates[abs(ry)] * math.sin( rotation_angle * (math.pi/180) ) + (4.33 * math.sin( rotation_angle * (math.pi/180) ))
     z += ( final_arm_size * math.sin(ry * (math.pi/180))) - 2.5
 
-    a1, a2, a3 = forward_L(point_to=[x, y, z], rotation_angle=rotation_angle)
+    #faz o calculo das coordenadas da primeira rotação (rx)
+    x += y_coordnates[abs(rx)]
+    y += ( R - x_coordnates[abs(rx)] )
+
+    #atribui a rotação do eixo z a rotação (rz)
+        #fazer
+
+    a1, a2, a3 = forward_L(point_to=[x, y, z])
     
     return a1, a2, a3
 
