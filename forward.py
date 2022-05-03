@@ -88,10 +88,6 @@ def rotations(point_to:list, ry:int, rx:int, rz:int, final_arm_size=10):
 
     #faz o calculo de rotação
     rotation_angle = int(math.atan2(y, x) * (180/math.pi))
-    
-    #      ( final_arm_size * math.cos(ry * (math.pi/180) ) -> x_coordnates[abs(ry)]
-    # x -= ( final_arm_size * math.cos(ry * (math.pi/180) ) * math.cos(rotation_angle * (math.pi/180))) + (4.33 * math.cos(rotation_angle * (math.pi/180)))
-    # y -= ( final_arm_size * math.cos(ry * (math.pi/180) ) * math.sin(rotation_angle * (math.pi/180))) + (4.33 * math.sin(rotation_angle * (math.pi/180)))
 
     #faz o calculo das coordenadas da segunda rotação (ry)
     x -= x_coordnates[abs(ry)] * math.cos( rotation_angle * (math.pi/180) ) + (4.33 * math.cos( rotation_angle * (math.pi/180) ))
@@ -109,9 +105,6 @@ def rotations(point_to:list, ry:int, rx:int, rz:int, final_arm_size=10):
     a1, a2, a3 = forward_L(point_to=[x, y, z])
     
     return rotation_angle, a1, a2, a3
-
-
-
 
 
 if __name__ == '__main__':

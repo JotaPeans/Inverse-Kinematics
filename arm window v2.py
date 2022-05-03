@@ -49,11 +49,6 @@ class Arm():
             print('Erro Inesperado')
 
     def plot_forward_view(self):
-
-        # x = [0, 0]    -> para rotation_angle = 90º
-        # y = [0, 4.33] -> para rotation_angle = 90º
-        # z = [0, 2.5]  -> para rotation_angle = 90º
-
         x = [0]
         y = [0]
         z = [0, 2.5]
@@ -99,10 +94,7 @@ class Arm():
         ax.plot(x[2:4], y[2:4], z[2:4], color='blue', marker='o', linestyle='solid', linewidth=2, markersize=5)  # arm_2
         ax.plot(x[3:5], y[3:5], z[3:5], color='green', marker='o', linestyle='solid', linewidth=2, markersize=5)  # arm_3 -> final_arm
 
-        fig = plt.figure()
-
-        ax = plt.axes(projection='3d')
         plt.show()
 
 
-Arm(point_to=[0, 50, 10, 0, -30, 0])
+Arm(point_to=[0, 50, 10, 0, 0, 0])
