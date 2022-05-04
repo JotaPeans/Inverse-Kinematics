@@ -1,12 +1,39 @@
+import imp
 import math
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 import forward
+import sys
+from PyQt6 import uic, QtWidgets
 
 
-class Arm():
+class Window ():
     def __init__(self, point_to=[0, 21.4, 5.43, 0, 0, 0], arm_size=20, final_arm_size=10, rotation_angle=90, a1=90, a2=0, a3=-45) -> None:
-        '''## default_first_point -> [ x, y, z, rx, ry, rz ]'''
+        '''### point_to -> [ x, y, z, rx, ry, rz ]'''
 
+    #Janela:
+        self.form = uic.loadUi('Ui/Robotic Arm.ui')
+
+        self.form.run_ik.setStyleSheet('QPushButton {border: None; border-radius:10px; background-color:#729B79; } QPushButton:hover {background-color:#668F6D;}')
+        self.form.run_ik.clicked.connect(self.getValues)
+        
+        self.form.reset.setStyleSheet('QPushButton {border: None; border-radius:10px; background-color:rgb(255, 105, 105); } QPushButton:hover {background-color:#EE5844;}')
+        self.form.reset.clicked.connect(self.resetValues)
+
+        self.form.X_axis.valueChanged.connect(self.valueX)
+        self.form.Y_axis.valueChanged.connect(self.valueY)
+        self.form.Z_axis.valueChanged.connect(self.valueZ)
+
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.form.Box_figure.addWidget(self.canvas)
+        #self.form.Box_figure.removeWidget(self.canvas)
+
+        self.form.show()
+        
+
+    #Arm:
         if len(point_to) <= 3:
             for x in range(3):
                 point_to.append(0)
@@ -28,12 +55,35 @@ class Arm():
 
         self.calculate()
 
+    def getValues(self):
+        X_value = self.form.X_axis.value()
+        Y_value = self.form.Y_axis.value()
+        Z_value = self.form.Z_axis.value()
+
+        self.point_to = [X_value, Y_value, Z_value, 0, 0, 0]
+        self.calculate()
+
+    def valueX(self, value):
+        self.form.point_X.setText(str(value))
+
+    def valueY(self, value):
+        self.form.point_Y.setText(str(value))
+
+    def valueZ(self, value):
+        self.form.point_Z.setText(str(value))
+
+    def resetValues(self):
+        self.point_to = [0, 21.4, 5.43, 0, 0, 0]
+        self.form.X_axis.setValue(0)
+        self.form.Y_axis.setValue(0)
+        self.form.Z_axis.setValue(0)
+        self.calculate()
+
     def calculate(self):
         try:
             #self.Length = math.sqrt((self.point_to[0]**2) + (self.point_to[1]**2))
 
-            self.r, self.a1, self.a2, self.a3 = forward.rotations(
-                point_to=self.point_to, ry=self.ry, rx=self.rx, rz=self.rz)
+            self.r, self.a1, self.a2, self.a3 = forward.rotations(point_to=self.point_to, ry=self.ry, rx=self.rx, rz=self.rz)
 
             #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(a1 = self.a1, a2 = self.a2, ry = self.ry)
 
@@ -49,6 +99,8 @@ class Arm():
             print('Erro Inesperado')
 
     def plot_forward_view(self):
+        self.figure.clear()
+
         x = [0]
         y = [0]
         z = [0, 2.5]
@@ -85,8 +137,8 @@ class Arm():
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-        ax.set_xlim([-40, 40])
-        ax.set_ylim([0, 60])
+        ax.set_xlim([-60, 60])
+        ax.set_ylim([-60, 60])
         ax.set_zlim([0, 50])
 
         ax.plot(x[0:2], y[0:2], z[0:2], color='orange', marker='o', linestyle='solid', linewidth=2, markersize=5)  # base
@@ -94,7 +146,12 @@ class Arm():
         ax.plot(x[2:4], y[2:4], z[2:4], color='blue', marker='o', linestyle='solid', linewidth=2, markersize=5)  # arm_2
         ax.plot(x[3:5], y[3:5], z[3:5], color='green', marker='o', linestyle='solid', linewidth=2, markersize=5)  # arm_3 -> final_arm
 
-        plt.show()
+
+        self.canvas.draw()
 
 
-Arm(point_to=[0, 50, 10, 0, 0, 0])
+
+app = QtWidgets.QApplication([])
+#j = Window(point_to=[0, 50, 15, 0, 0, 0])
+j = Window()
+sys.exit(app.exec())
