@@ -2,14 +2,13 @@ import imp
 import math
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 import forward
 import sys
 from PyQt6 import uic, QtWidgets
 
 
 class Window ():
-    def __init__(self, point_to=[0, 21.4, 5.43, 0, 0, 0], arm_size=20, final_arm_size=10, rotation_angle=90, a1=90, a2=0, a3=-45) -> None:
+    def __init__(self, point_to=[0, 21.4, 5.43, 0, 0, 0], arm_size=20, final_arm_size=10) -> None:
         '''### point_to -> [ x, y, z, rx, ry, rz ]'''
 
     #Janela:
@@ -38,11 +37,11 @@ class Window ():
         self.arm_size = arm_size
         self.final_arm_size = final_arm_size
 
-        self.r = rotation_angle
+        self.r = 90
 
-        self.a1 = a1
-        self.a2 = a2
-        self.a3 = a3
+        self.a1 = 0
+        self.a2 = 0
+        self.a3 = 0
 
         self.point_to = point_to[0:3]
 
