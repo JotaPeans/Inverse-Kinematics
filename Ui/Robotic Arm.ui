@@ -69,9 +69,15 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(114, 155, 121);
-border: None;
-border-radius:10px;</string>
+    <string notr="true">QPushButton {
+	border: None; 
+	border-radius:10px;
+	background-color:#729B79; 
+}
+
+QPushButton:hover {
+	background-color:#668F6D;
+}</string>
    </property>
    <property name="text">
     <string>Run IK</string>
@@ -255,9 +261,15 @@ border-radius:10px;</string>
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 105, 105);
-border: None;
-border-radius:10px;</string>
+    <string notr="true">QPushButton {
+	border: None;
+	border-radius:10px;
+	background-color:rgb(255, 105, 105);
+}
+
+QPushButton:hover {
+	background-color:#EE5844;
+}</string>
    </property>
    <property name="text">
     <string>Reset</string>
