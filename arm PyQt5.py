@@ -1,4 +1,3 @@
-import imp
 import math
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
