@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import forward
 import sys
-from PyQt5 import uic, QtWidgets
+from PyQt6 import uic, QtWidgets
 
 
 class Window ():
