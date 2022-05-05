@@ -1,3 +1,4 @@
+import imp
 import math
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -93,16 +94,16 @@ class Window ():
 
             #self.a1, self.a2, self.a3 = forward.calculate_motor_angles(a1 = self.a1, a2 = self.a2, ry = self.ry)
 
-            print(f'rotation = {self.r}')
-            print(f'a1 = {self.a1}')
-            print(f'a2 = {self.a2}')
-            print(f'a3 = {self.a3}')
-            print()
+            #print(f'rotation = {self.r}')
+            #print(f'a1 = {self.a1}')
+            #print(f'a2 = {self.a2}')
+            #print(f'a3 = {self.a3}')
+            #print()
 
             self.plot_forward_view()
 
         except:
-            print('Erro Inesperado')
+            print('A coordenada nao pode ser alcancada !')
 
     def plot_forward_view(self):
         self.figure.clear()
