@@ -44,8 +44,7 @@ def forward_L(point_to:list, arm_size=20, final_arm_size=10):
     h = math.sqrt((L*L) + (z*z))
 
     if h > 40:
-        print('\nA coordenada nao pode ser alcancada !\n')
-        return None
+        raise Exception('\nA coordenada nao pode ser alcancada !\n')
 
     try:
 
@@ -66,8 +65,8 @@ def forward_L(point_to:list, arm_size=20, final_arm_size=10):
             
         return a1, a2, a3
 
-    except:
-        print('\nA coordenada nao pode ser alcancada !\n')
+    except Exception:
+        print(Exception)
         return None
 
 

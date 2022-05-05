@@ -3,17 +3,17 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import forward
 import sys
-from PyQt6 import uic, QtWidgets
+from PyQt5 import uic, QtWidgets
 
 
 class Window ():
-    def __init__(self, point_to=[0, 21.4, 5.43, 0, 0, 0], arm_size=20, final_arm_size=10) -> None:
+    def __init__(self, point_to=[0, 22, 6, 0, 0, 0], arm_size=20, final_arm_size=10) -> None:
         '''### point_to -> [ x, y, z, rx, ry, rz ]'''
 
     #Janela:
-        self.form = uic.loadUi('Ui/Robotic Arm.ui')
+        self.form = uic.loadUi('Ui/Robotic Arm v2.ui')
 
-        self.form.run_ik.clicked.connect(self.getValues)
+        #self.form.run_ik.clicked.connect(self.getValues)
         self.form.reset.clicked.connect(self.resetValues)
 
         self.form.X_axis.valueChanged.connect(self.valueX)
@@ -48,30 +48,41 @@ class Window ():
         self.ry = point_to[4]
         self.rz = point_to[5]
 
+        self.form.X_axis.setValue(int(self.point_to[0]))
+        self.form.Y_axis.setValue(int(self.point_to[1]))
+        self.form.Z_axis.setValue(int(self.point_to[2]))
+
         self.calculate()
 
-    def getValues(self):
-        X_value = self.form.X_axis.value()
-        Y_value = self.form.Y_axis.value()
-        Z_value = self.form.Z_axis.value()
 
-        self.point_to = [X_value, Y_value, Z_value, 0, 0, 0]
-        self.calculate()
+    #def getValues(self):
+    #    X_value = self.form.X_axis.value()
+    #    Y_value = self.form.Y_axis.value()
+    #    Z_value = self.form.Z_axis.value()
+    #
+    #    self.point_to = [X_value, Y_value, Z_value, 0, 0, 0]
+    #    self.calculate()
 
     def valueX(self, value):
         self.form.point_X.setText(str(value))
+        self.point_to[0] = float(value)
+        self.calculate()
 
     def valueY(self, value):
         self.form.point_Y.setText(str(value))
+        self.point_to[1] = float(value)
+        self.calculate()
 
     def valueZ(self, value):
         self.form.point_Z.setText(str(value))
+        self.point_to[2] = float(value)
+        self.calculate()
 
     def resetValues(self):
-        self.point_to = [0, 21.4, 5.43, 0, 0, 0]
-        self.form.X_axis.setValue(0)
-        self.form.Y_axis.setValue(0)
-        self.form.Z_axis.setValue(0)
+        self.point_to = [0, 22, 6, 0, 0, 0]
+        self.form.X_axis.setValue(int(self.point_to[0]))
+        self.form.Y_axis.setValue(int(self.point_to[1]))
+        self.form.Z_axis.setValue(int(self.point_to[2]))
         self.calculate()
 
     def calculate(self):
@@ -143,6 +154,8 @@ class Window ():
 
 
         self.canvas.draw()
+
+        #plt.show()
 
 
 
